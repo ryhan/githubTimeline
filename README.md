@@ -7,9 +7,11 @@ To see it in action, check out [ryhan.github.com](http://ryhan.github.com/ "ryha
 
 ## Usage
 
-### Fork it to [username].github.com
+### Fork and rename to [username].github.com
 
-If you haven't already, I recommend making use of github Pages to host your own version of githubTimeline for free. Forking this repository to "username.github.com" (where 'username' is replaced by your own username) will generate a public site that lists all of your public repositories.
+If you haven't already, I recommend making use of github Pages to host your own version of githubTimeline for free. Forking and renaming this repository to "username.github.com" (where 'username' is replaced by your own username) will generate a public site that lists all of your public repositories.
+
+To do this, fork this repository to your own account, click on 'Admin', and then change the 'Repository Name' to 'username.github.com'
 
 Learn more about Github Pages at [pages.github.com](http://pages.github.com/ "pages.github.com").
 
