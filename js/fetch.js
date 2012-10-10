@@ -1,64 +1,52 @@
 /* Fetch.js */
 
-$(function(){
-	formHandler();
-});
+window.onload = function() { formHandler(); };
 
-// Called on form submit
-function formHandler()
-{
-	var username = $('#username')[0].value;
+function formHandler(){
+	var username = document.getElementById('username').value;
 	githubUser(username, githubHandler);
 }
 
-// Fetch data from the github api for a particular user
-function githubUser(username, callback)
-{
-	$.getJSON('https://api.github.com/users/'
-		+ username
-		+ '/repos?callback=?',callback);
+function githubUser(username, callback){
+	console.log(username);
+	var url = 'https://api.github.com/users/'  + username  + '/repos';
+
+	var the_object = {}; 
+	var http_request = new XMLHttpRequest();
+	http_request.open( "GET", url, true );
+	http_request.onreadystatechange = function () {
+		console.log(http_request.responseText);
+	    if ( http_request.readyState == 4 && http_request.status == 200 ) {
+	        the_object = JSON.parse( http_request.responseText );
+	        callback(the_object);
+	    }
+	};
+	http_request.send(null);
 }
 
-// Update the DOM when passed data from the github API
-function githubHandler(data)
-{	
-	var ul = $('#repos')[0];
+function githubHandler(data){
 
-	var repos = _.sortBy(data.data, 'created_at').reverse();
+	var ul = document.getElementById('repos');
+	ul.innerHTML = "";
 
-	ul.innerHTML = '';
+	var repos = data;
+	demo = repos;
+	repos = _.sortBy(repos, 'created_at').reverse();
 
 	_.map(repos, function(repo){
-		ul.appendChild(createRepoLi(repo));
+		var li = document.createElement("li");
+		li.innerHTML+= "<h2><a target='_blank' href='"
+						+repo.html_url+"'>" + repo.name + "</a></h2>";
+
+		if (repo.fork == true){
+			li.setAttribute('class', 'fork');
+		}else{
+			var date = (new Date(repo.created_at)).toDateString();
+			li.innerHTML+= "<div class='date'>"+date+"</div>";
+			li.setAttribute('class', 'original');
+			li.innerHTML+= "<p>" + repo.description + "</p>";
+		}
+		ul.appendChild(li);
 		return true;
 	});
 }
-
-// Create a li for a particular repo
-function createRepoLi( repoData )
-{
-	var li = document.createElement("li");
-
-	li.setAttribute('class', (repoData.fork)?'fork':'original');
-
-	// Create a linked header for each repo
-	var header = document.createElement('h2');
-	var titleLink = document.createElement("a");
-
-	titleLink.innerHTML = repoData.name;
-	titleLink.setAttribute('href', repoData.html_url);
-	titleLink.setAttribute('target', '_blank');
-
-	header.appendChild(titleLink);
-	li.appendChild(header);
-
-	// Add detailed data for repos that aren't forks
-	if (!repoData.fork)
-	{
-		var date = (new Date(repoData.created_at)).toDateString();
-		li.innerHTML+= "<div class='date'>"+date+"</div>";
-		li.innerHTML+= "<p>" + repoData.description + "</p>";	
-	}
-
-	return li;
-};
