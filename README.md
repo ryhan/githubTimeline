@@ -19,6 +19,21 @@ Learn more about Github Pages at [pages.github.com](http://pages.github.com/ "pa
 
 By default, githubTimeline uses 'Ryhan' as the initial github user name. You should modify the `title` tag as well as the value attribute of `input` in index.html to be your own github handle.
 
+
+### Register your application
+
+Github now requires your application is registered to access the API. Fortunately, this is very simple. Go to [your profile](https://github.com/settings/profile) and click on 'Applications'. Fill in the following:
+
+```text
+Application Name: [username].github.com
+Main URL: http://[username].github.com
+Callback URL: http://[username].github.com
+```
+
+And click "Register Application".
+
+Push all your changes and wait a few minutes for the caches to update.
+
 ## License
 
 The MIT License
