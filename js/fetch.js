@@ -9,7 +9,7 @@ function formHandler(){
 
 function githubUser(username, callback){
 	console.log(username);
-	var url = 'https://api.github.com/users/'  + username  + '/repos';
+	var url = 'https://api.github.com/users/'  + username  + '/repos?type=all&sort=created&direction=desc';
 
 	var the_object = {}; 
 	var http_request = new XMLHttpRequest();
@@ -29,11 +29,7 @@ function githubHandler(data){
 	var ul = document.getElementById('repos');
 	ul.innerHTML = "";
 
-	var repos = data;
-	demo = repos;
-	repos = _.sortBy(repos, 'created_at').reverse();
-
-	_.map(repos, function(repo){
+	_.map(data, function(repo){
 		var li = document.createElement("li");
 		li.innerHTML+= "<h2><a target='_blank' href='"
 						+repo.html_url+"'>" + repo.name + "</a></h2>";
